@@ -1,0 +1,1 @@
+# mongodb-kubernetes-enterprise-operator-quickstart
