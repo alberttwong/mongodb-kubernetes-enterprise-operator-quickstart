@@ -207,14 +207,14 @@ spec:
   persistent: true
 ```
 7. Test if you can connect with the mongodb CLI.  Have to find the primary instance.   Could not make mongo with URL para work (v4.4.1)
+  
+If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
 
-7a. If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
-
-7b. If you want to test from your workstation, run `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
+If you want to test from your workstation, run `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
 
 8. Test with an Node.js application
 
-8a. Create new project. Add new application via git using https://github.com/alberttwong/nodejs-ex. Add the following k8s deployment variables
+Create new project. Add new application via git using https://github.com/alberttwong/nodejs-ex. Add the following k8s deployment variables
 
 ```
 # MongoDB connection string
@@ -222,3 +222,6 @@ MONGO_URL = mongodb+srv://awong:awong@my-replica-set4-svc.ecommerce.svc.cluster.
 # This is a OCP Node.js base image option.  Allows me to hot deploy changes while shelled in the pod.
 DEV_MODE = true
 ```
+
+9. Exposing MongoDB via routes (Optional)
+The operator doesn't create any OCP routes. This requires the use of k8s nodeport since MongoDB uses client side load balancing. For each replica set, you'll need to manually create 3 nodeports on the load balancer.  Once that is created, you'll create a connection string that contain those 3 nodeports. 
