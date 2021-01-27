@@ -185,7 +185,7 @@ spec:
 ```
 
 ```
-# TLS enabled in OpenShift doesn't currently work fJan 2021
+# TLS enabled in OpenShift doesn't currently work as of Jan 2021
 apiVersion: mongodb.com/v1
 kind: MongoDB
 metadata:
@@ -207,24 +207,18 @@ spec:
   persistent: true
 ```
 7. Test if you can connect with the mongodb CLI.  Have to find the primary instance.   Could not make mongo with URL para work (v4.4.1)
-`mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
+
+7a. If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
+
+7b. If you want to test from your workstation, run `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
 
 8. Test with an Node.js application
 
--- create new project
--- add new application via git
-https://github.com/alberttwong/nodejs-ex
-Add the following k8s deployment variables
+8a. Create new project. Add new application via git using https://github.com/alberttwong/nodejs-ex. Add the following k8s deployment variables
 
-# If Atlas - Connect OCP to Atlas via MongoDB URL.  Setup Altas to make sure that network allows connection from OCP, has a username/password, valid database and a empty collection. 
-MONGO_URL = mongodb+srv://<username>:<password>@shared-demo.xhytd.mongodb.net/<dbname>?retryWrites=true&w=majority
-# This is a OCP Node.js base image option.  Allows me to hot deploy changes while shelled in the pod.
-DEV_MODE = true
-
-# If Cloud Manager - Connect OCP to Cloud Manager via MongoDB URL.
-# Create or use a Cloud Manager Org.   https://wiki.corp.mongodb.com/display/KB/Free+Cloud+Manager+for+MongoDB+Employees
-# Sample connection URI.
-MONGO_URL = mongodb://awong:awong@my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local,my-replica-set4-1.my-replica-set4-svc.ecommerce.svc.cluster.local,my-replica-set4-2.my-replica-set4-svc.ecommerce.svc.cluster.local/test?replicaSet=my-replica-set4&authSource=admin&retryWrites=true&w=majority
+```
+# MongoDB connection string
 MONGO_URL = mongodb+srv://awong:awong@my-replica-set4-svc.ecommerce.svc.cluster.local/?ssl=false&replicaSet=my-replica-set4&authSource=admin
 # This is a OCP Node.js base image option.  Allows me to hot deploy changes while shelled in the pod.
 DEV_MODE = true
+```
