@@ -1,6 +1,6 @@
-# quickstart of installing the MongoDB Entperise Operator on Red Hat OpenShift
+# quickstart of installing the MongoDB Enterprise Operator on Red Hat OpenShift
 
-Here is a quickstart of installing the MongoDB Entperise Operator on OpenShift.  There are steps needed for cluster wide and additional steps for each namespace/project.
+Here is a quickstart of installing the MongoDB Enterprise Operator on OpenShift.  There are steps needed for cluster wide and additional steps for each namespace/project.
 
 # Architecture
 
