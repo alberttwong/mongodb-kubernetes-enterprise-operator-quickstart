@@ -109,7 +109,7 @@ subjects:
     name: mongodb-enterprise-appdb
 ```
 
-3. Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  You do this for each mongodb DBcluster.  I use the OCP CLI.
+3. Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
 
 ```
 oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
@@ -206,7 +206,10 @@ spec:
   version: 4.4.0-ent
   persistent: true
 ```
-7. Test if you can connect with the mongodb CLI.  Have to find the primary instance.   Could not make mongo with URL para work (v4.4.1)
+
+If you run into errors, run `oc get mdb my-replica-set4 -o yaml -w` and at the bottom, it'll give you a status message. If it says that it cannot connect to Cloud Manager, it means that you need to update the API key whitelist.   If it says "not ready" or "reconciling", just give the operator more time to complete it's operations. 
+
+7. Test if you can connect with the mongodb CLI.  
   
 If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
 
