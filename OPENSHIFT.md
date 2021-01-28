@@ -10,22 +10,24 @@ mongodb namespace contains: ops manager
 
 ecommerce, portal, your-app, etc, etc namespace contains: replica set
 
-# Install the MongoDB Enterprise Operator via OperatorHub (one time install)
+# Instructions
+
+## Install the MongoDB Enterprise Operator via OperatorHub (one time install)
 
 1. Install the MongoDB Enterprise Operator via OperatorHub.   Install with defaults (watch all namespace, automatic update)
-2. Check the operator pod logs to see if it's installed correctly.
+1. Check the operator pod logs to see if it's installed correctly.
 
-# Install Ops Manager
+## Install Ops Manager
 Prereq: Operator is installed.
 
 1. Create a new project.  `oc new-project mongodb`
-2. Execute the 1 command to create the username/passwd to log into Ops Manager running in the kube cluster. You do this for each mongodb cluster. I use the OCP CLI.
+1. Execute the 1 command to create the username/passwd to log into Ops Manager running in the kube cluster. You do this for each mongodb cluster. I use the OCP CLI.
 
 `
 oc create secret generic ops-manager-admin-user-credentials --from-literal=Username="albert.wong@mongodb.com" --from-literal=Password="Admin1234$" --from-literal=FirstName="Albert" --from-literal=LastName="Wong"
 `
 
-3. Deploy Ops Manager
+1. Deploy Ops Manager
 
 ```
 ---
@@ -58,9 +60,9 @@ spec:
     persistent: true
 ``` 
 
-4. Create a OCP route.   The operator doesn't create a route automatically.  You'll have to create the route manually. 
+1. Create a OCP route.   The operator doesn't create a route automatically.  You'll have to create the route manually. 
 
-# Install a Replica set
+## Install a Replica set
 The assumption is that you have a project (ecommerce_ that has already been created and you want to "add" a MongoDB replica set into this project.
 
 1. Change to the correct project.  `oc project ecommerce`
@@ -213,13 +215,15 @@ spec:
 
 If you run into errors, run `oc get mdb my-replica-set4 -o yaml -w` and at the bottom, it'll give you a status message. If it says that it cannot connect to Cloud Manager, it means that you need to update the API key whitelist.   If it says "not ready" or "reconciling", just give the operator more time to complete it's operations. 
 
-7. Test if you can connect with the mongodb CLI.  
+## Connnect to replica set
+
+1. Test if you can connect with the mongodb CLI.  
   
-If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
+   1. If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
 
-If you want to test from your workstation, run `oc get svc`, find the correct k8s service `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
+   1. If you want to test from your workstation, run `oc get svc`, find the correct k8s service `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
 
-8. Test with an Node.js application
+1. Test with an Node.js application
 
 Create new project. Add new application via git using https://github.com/alberttwong/nodejs-ex. Add the following k8s deployment variables
 
@@ -230,6 +234,6 @@ MONGO_URL = mongodb+srv://awong:awong@my-replica-set4-svc.ecommerce.svc.cluster.
 DEV_MODE = true
 ```
 
-9. Exposing MongoDB via routes (Optional)
+1. Exposing MongoDB replica set outside of the k8s namespace via routes (Optional)
 
 The operator doesn't create any OCP routes. This requires the use of k8s nodeport since MongoDB uses client side load balancing. For each replica set, you'll need to manually create 3 nodeports on the load balancer.  Once that is created, you'll create a connection string that contain those 3 nodeports. 
