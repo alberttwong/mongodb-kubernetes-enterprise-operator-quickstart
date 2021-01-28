@@ -60,7 +60,7 @@ spec:
     version: 4.2.0
     persistent: true
 ```
-1. Create a k8s route.   The operator doesn't create a route automatically.  You'll have to create the route manually.
+1. Create a k8s route so that users can access OM.   The operator doesn't create a route automatically.  You'll have to create the route manually.
 1. Verify `kubectl get om -n mongodb -o yaml -w`
 
 ## Install a replica set
@@ -77,10 +77,10 @@ spec:
 ## Connnect to replica set
 
 1. Test if you can connect with the mongodb CLI. 
-   1. If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
+   1. If you want to test within the k8s namespace, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
    1. `kubectl get svc -n default`, `kubectl port-forward svc/my-replica-set4-svc-external 27017:27017` and `mongo localhost:30091` 
 1. Test with an Node.js application
-1. Exposing MongoDB replica set outside of the k8s namespace via routes (Optional)
+1. Exposing MongoDB replica set outside of the k8s namespace via routes (Optional but not recommended)
 
 ## Delete MongoDB Operator
 
