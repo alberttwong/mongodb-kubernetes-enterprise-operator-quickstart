@@ -112,17 +112,17 @@ subjects:
 
     Option Cloud Manager: Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
 
-```
-oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
-oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://cloud.mongodb.com" --from-literal="orgId=5f9310f51de4a4465a4f2318"
-```
+    ```
+    oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
+    oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://cloud.mongodb.com" --from-literal="orgId=5f9310f51de4a4465a4f2318"
+    ```
 
     Option Ops Manager: Note the organization ID within Ops Manager and create an API key.
 
-```
-oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
-oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://opsmanager.local" --from-literal="orgId=5f9310f51de4a4465a4f2318"
-```     
+    ```
+    oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
+    oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://opsmanager.local" --from-literal="orgId=5f9310f51de4a4465a4f2318"
+    ```     
 
 1. Create db admin user so that you can log into the replica set after it's been created.
 
@@ -226,16 +226,12 @@ If you run into errors, run `oc get mdb my-replica-set4 -o yaml -w` and at the b
    1. If you want to test from your workstation, run `oc get svc`, find the correct k8s service `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
 
 1. Test with an Node.js application
-
 Create new project. Add new application via git using https://github.com/alberttwong/nodejs-ex. Add the following k8s deployment variables
-
-```
-# MongoDB connection string
-MONGO_URL = mongodb+srv://awong:awong@my-replica-set4-svc.ecommerce.svc.cluster.local/?ssl=false&replicaSet=my-replica-set4&authSource=admin
-# This is a OCP Node.js base image option.  Allows me to hot deploy changes while shelled in the pod.
-DEV_MODE = true
-```
-
+    ```
+    # MongoDB connection string
+    MONGO_URL = mongodb+srv://awong:awong@my-replica-set4-svc.ecommerce.svc.cluster.local/?ssl=false&replicaSet=my-replica-set4&authSource=admin
+    # This is a OCP Node.js base image option.  Allows me to hot deploy changes while shelled in the pod.
+    DEV_MODE = true
+    ```
 1. Exposing MongoDB replica set outside of the k8s namespace via routes (Optional)
-
 The operator doesn't create any OCP routes. This requires the use of k8s nodeport since MongoDB uses client side load balancing. For each replica set, you'll need to manually create 3 nodeports on the load balancer.  Once that is created, you'll create a connection string that contain those 3 nodeports. 
