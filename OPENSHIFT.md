@@ -117,13 +117,14 @@ subjects:
 
 3. You must connect the replica set to Cloud Manager or Ops Manager.
 
-    1. Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
+    Option Cloud Manager: Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
 
 ```
 oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
 oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://cloud.mongodb.com" --from-literal="orgId=5f9310f51de4a4465a4f2318"
 ```
-     1. Note the organization ID within Ops Manager and create an API key.
+
+    Option Ops Manager: Note the organization ID within Ops Manager and create an API key.
 
 ```
 oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
