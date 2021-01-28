@@ -1,6 +1,6 @@
-# mongodb-kubernetes-enterprise-operator-quickstart
+# Quickstart of installing the MongoDB Enterprise Operator on AWS EKS
 
-Here is a quickstart of installing the MongoDB Operator for OpenShift.  There are steps needed for cluster wide and additional steps for each namespace/project.
+Here is a quickstart of installing the MongoDB Operator on AWS EKS.  There are steps needed for cluster wide and additional steps for each namespace/project.
 
 # Architecture
 
