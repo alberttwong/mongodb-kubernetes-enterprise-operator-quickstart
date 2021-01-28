@@ -15,6 +15,7 @@ ecommerce, portal, your-app, etc, etc namespace contains: replica set
 ## Setup AWS EKS
 
 1. `eksctl create cluster --region=us-west-2`.
+2. Install k8s dashboard.  https://docs.aws.amazon.com/eks/latest/userguide/dashboard-tutorial.html
 
 ## Install the MongoDB Enterprise Operator
 
