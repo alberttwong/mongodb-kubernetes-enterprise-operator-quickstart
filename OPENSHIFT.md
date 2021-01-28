@@ -25,6 +25,8 @@ Prereq: Operator is installed.
 oc create secret generic ops-manager-admin-user-credentials --from-literal=Username="albert.wong@mongodb.com" --from-literal=Password="Admin1234$" --from-literal=FirstName="Albert" --from-literal=LastName="Wong"
 `
 
+3. Deploy Ops Manager
+
 ```
 ---
 apiVersion: mongodb.com/v1
@@ -55,6 +57,8 @@ spec:
     version: 4.2.0
     persistent: true
 ``` 
+
+4. Create a OCP route.   The operator doesn't create a route automatically.  You'll have to create the route manually. 
 
 # Install a Replica set
 The assumption is that you have a project (ecommerce_ that has already been created and you want to "add" a MongoDB replica set into this project.
