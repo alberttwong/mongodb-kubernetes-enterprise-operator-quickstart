@@ -27,39 +27,39 @@ ecommerce, portal, your-app, etc, etc namespace contains: replica set
 
 1. `kubectl create secret generic om-admin-secret --from-literal=Username="jane.doe@example.com" --from-literal=Password="^DSghgds&*797JGHghg&^9ghGKG^*(7986" --from-literal=FirstName="Jane" --from-literal=LastName="Doe" -n mongodb`
 1. Create OM
-```
----
-apiVersion: mongodb.com/v1
-kind: MongoDBOpsManager
-metadata:
-  name: om
-spec:
-  replicas: 1
-  version: 4.2.4
-  adminCredentials: om-admin-secret
-  backup:
-    enabled: false
-  configuration:
-    mms.ignoreInitialUiSetup: "true"
-    mms.fromEmailAddr: "jane.doe@example.com"
-    mms.replyToEmailAddr: "jane.doe@example.com"
-    mms.adminEmailAddr: "jane.doe@example.com"
-    mms.emailDaoClass: "com.xgen.svc.core.dao.email.JavaEmailDao"
-    mms.mail.transport: "smtp"
-    mms.mail.hostname: "example.com"
-    mms.mail.port: "25"
-    mms.security.allowCORS: "false"
-  externalConnectivity:
-    # LoadBalancer|NodePort
-    type: NodePort
-    # optional, corresponds to nodePort port
-    port: 30700
- 
-  applicationDatabase:
-    members: 3
-    version: 4.2.0
-    persistent: true
-```
+    ```
+    ---
+    apiVersion: mongodb.com/v1
+    kind: MongoDBOpsManager
+    metadata:
+      name: om
+    spec:
+      replicas: 1
+      version: 4.2.4
+      adminCredentials: om-admin-secret
+      backup:
+        enabled: false
+      configuration:
+        mms.ignoreInitialUiSetup: "true"
+        mms.fromEmailAddr: "jane.doe@example.com"
+        mms.replyToEmailAddr: "jane.doe@example.com"
+        mms.adminEmailAddr: "jane.doe@example.com"
+        mms.emailDaoClass: "com.xgen.svc.core.dao.email.JavaEmailDao"
+        mms.mail.transport: "smtp"
+        mms.mail.hostname: "example.com"
+        mms.mail.port: "25"
+        mms.security.allowCORS: "false"
+      externalConnectivity:
+        # LoadBalancer|NodePort
+        type: NodePort
+        # optional, corresponds to nodePort port
+        port: 30700
+
+      applicationDatabase:
+        members: 3
+        version: 4.2.0
+        persistent: true
+    ```
 1. Create a k8s route so that users can access OM.   The operator doesn't create a route automatically.  You'll have to create the route manually.
 1. Verify `kubectl get om -n mongodb -o yaml -w`
 
