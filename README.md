@@ -213,7 +213,7 @@ If you run into errors, run `oc get mdb my-replica-set4 -o yaml -w` and at the b
   
 If you want to test within the k8s cluster, you'll need something like mongodb toolbox (https://hub.docker.com/r/atwong/tool-box) to run `mongo --host my-replica-set4-0.my-replica-set4-svc.ecommerce.svc.cluster.local --port 27017 --username awong --password awong`
 
-If you want to test from your workstation, run `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
+If you want to test from your workstation, run `oc get svc`, find the correct k8s service `oc port-forward svc/my-replica-set4-svc-external 27017:27017` and then `mongo --host localhost --port 27017 --username awong --password awong`
 
 8. Test with an Node.js application
 
@@ -227,4 +227,5 @@ DEV_MODE = true
 ```
 
 9. Exposing MongoDB via routes (Optional)
+
 The operator doesn't create any OCP routes. This requires the use of k8s nodeport since MongoDB uses client side load balancing. For each replica set, you'll need to manually create 3 nodeports on the load balancer.  Once that is created, you'll create a connection string that contain those 3 nodeports. 
