@@ -63,7 +63,7 @@ spec:
 1. Create a OCP route.   The operator doesn't create a route automatically.  You'll have to create the route manually. 
 
 ## Install a Replica set
-The assumption is that you have a project (ecommerce_ that has already been created and you want to "add" a MongoDB replica set into this project.
+The assumption is that you have a project (ecommerce) that has already been created and you want to "add" a MongoDB replica set into this project.
 
 1. Change to the correct project.  `oc project ecommerce`
 2. Create all mongoDB k8s service accounts 
@@ -115,14 +115,22 @@ subjects:
     name: mongodb-enterprise-appdb
 ```
 
-3. Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
+3. You must connect the replica set to Cloud Manager or Ops Manager.
+
+    1. Execute the 2 commands to create connectivity to cloud.mongodb.com Cloud Manager.  It is assumed that you have already created in Organization in MongoDB Cloud Manager and created an API key for the operator to use.   If you also know the IP address of your OCP cluster, you can whitelist it now.  If not, you can come back to this step and update the IP whitelist.
 
 ```
 oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
 oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://cloud.mongodb.com" --from-literal="orgId=5f9310f51de4a4465a4f2318"
 ```
+     1. Note the organization ID within Ops Manager and create an API key.
 
-4. Create db admin user so that you can log into the replica set after it's been created.
+```
+oc create secret generic mongodb-opsmanager-creds --from-literal="user=NTFANWDB" --from-literal="publicApiKey=e2719091-8810-441d-9186-f0a747382922"
+oc create configmap mongodb-cloudmanager-orgid --from-literal="baseUrl=https://opsmanager.local" --from-literal="orgId=5f9310f51de4a4465a4f2318"
+```     
+
+1. Create db admin user so that you can log into the replica set after it's been created.
 
 ```
 ---
