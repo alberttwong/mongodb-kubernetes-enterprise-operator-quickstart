@@ -27,7 +27,7 @@ ecommerce, portal, your-app, etc, etc namespace contains: replica set
 ## Install Ops Manager
 
 1. `kubectl create secret generic om-admin-secret --from-literal=Username="jane.doe@example.com" --from-literal=Password="^DSghgds&*797JGHghg&^9ghGKG^*(7986" --from-literal=FirstName="Jane" --from-literal=LastName="Doe" -n mongodb`
-1. Create a mongodb-opsmgr.yaml and `kubectl apply -f mongodb-opsmgr.yaml`.   If you need to edit this `kubectl edit mongodbopsmanager.mongodb.com/om`
+1. Create a mongodb-opsmgr.yaml and `kubectl apply -f mongodb-opsmgr.yaml -n mongodb`.   If you need to edit this `kubectl edit mongodbopsmanager.mongodb.com/om`
     ```
     ---
     apiVersion: mongodb.com/v1
