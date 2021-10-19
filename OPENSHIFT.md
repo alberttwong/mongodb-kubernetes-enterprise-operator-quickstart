@@ -170,7 +170,7 @@ spec:
 ...
 ```
 
-6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.
+6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.  Full list of what cluster options are available at https://github.com/mongodb/mongodb-atlas-kubernetes/blob/v0.6.1/config/crd/bases/atlas.mongodb.com_atlasclusters.yaml#L171
 
 ```
 apiVersion: mongodb.com/v1
@@ -183,6 +183,7 @@ spec:
       enabled : true
       modes: ["SCRAM"]
   credentials: mongodb-opsmanager-creds
+  providerBackupEnabled: true
   members: 3
   opsManager:
     configMapRef:
@@ -235,3 +236,23 @@ Create new project. Add new application via git using https://github.com/albertt
     ```
 1. Exposing MongoDB replica set outside of the k8s namespace via routes (Optional)
 The operator doesn't create any OCP routes. This requires the use of k8s nodeport since MongoDB uses client side load balancing. For each replica set, you'll need to manually create 3 nodeports on the load balancer.  Once that is created, you'll create a connection string that contain those 3 nodeports. 
+
+
+## Atlas Operator
+```
+apiVersion: atlas.mongodb.com/v1
+kind: AtlasCluster
+metadata:
+  name: my-atlas-cluster
+spec:
+  name: "Test-cluster"
+  projectRef:
+    name: my-project-atlas-operator
+  providerSettings:
+    instanceSizeName: M10
+    providerName: AWS
+    regionName: US_EAST_1
+  mongoDBMajorVersion: "4.0"
+```
+
+A list of region names can be found at https://docs.atlas.mongodb.com/reference/amazon-aws/#synopsis
