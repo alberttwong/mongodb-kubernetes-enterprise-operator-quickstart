@@ -48,12 +48,21 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: mongodb-enterprise-appdb
+  namespace: mongodb
 rules:
   - apiGroups:
       - ""
     resources:
       - secrets
     verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - patch
+      - delete
       - get
 ---
 # Source: mongodb-enterprise-operator/templates/database-roles.yaml
@@ -134,12 +143,21 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: mongodb-enterprise-appdb
+  namespace: mongodb
 rules:
   - apiGroups:
       - ""
     resources:
       - secrets
     verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+    verbs:
+      - patch
+      - delete
       - get
 ---
 # Source: mongodb-enterprise-operator/templates/database-roles.yaml
