@@ -81,34 +81,35 @@ subjects:
 3. Execute the 1 command to create the username/passwd to log into Ops Manager running in the kube cluster. You do this for each mongodb cluster. I use the OCP CLI. `oc create secret generic ops-manager-admin-user-credentials --from-literal=Username="albert.wong@mongodb.com" --from-literal=Password="Admin1234$" --from-literal=FirstName="Albert" --from-literal=LastName="Wong"`
 4. Deploy Ops Manager 
     ```
-    ---
-    apiVersion: mongodb.com/v1
-    kind: MongoDBOpsManager
-    metadata:
-      name: om
-    spec:
-      replicas: 1
-      version: 4.2.4
-      adminCredentials: ops-manager-admin-user-credentials
-      backup:
-        enabled: false
-      configuration:
-        mms.ignoreInitialUiSetup: "true"
-        mms.fromEmailAddr: "jane.doe@example.com"
-        mms.replyToEmailAddr: "jane.doe@example.com"
-        mms.adminEmailAddr: "jane.doe@example.com"
-        mms.emailDaoClass: "com.xgen.svc.core.dao.email.JavaEmailDao"
-        mms.mail.transport: "smtp"
-        mms.mail.hostname: "example.com"
-        mms.mail.port: "25"
-        mms.security.allowCORS: "false"
-      externalConnectivity:
-        # |NodePort
-        type: LoadBalancer
-      applicationDatabase:
-        members: 3
-        version: 4.2.0
-        persistent: true
+---
+apiVersion: mongodb.com/v1
+kind: MongoDBOpsManager
+metadata:
+  name: om
+spec:
+  replicas: 1
+  version: 4.4.17
+  adminCredentials: ops-manager-admin-user-credentials
+  backup:
+    enabled: false
+  configuration:
+    mms.ignoreInitialUiSetup: "true"
+    mms.fromEmailAddr: "jane.doe@example.com"
+    mms.replyToEmailAddr: "jane.doe@example.com"
+    mms.adminEmailAddr: "jane.doe@example.com"
+    mms.emailDaoClass: "com.xgen.svc.core.dao.email.JavaEmailDao"
+    mms.mail.transport: "smtp"
+    mms.mail.hostname: "example.com"
+    mms.mail.port: "25"
+    mms.security.allowCORS: "false"
+  externalConnectivity:
+    # |NodePort
+    type: LoadBalancer
+  applicationDatabase:
+    members: 3
+    version: 4.2.11
+    persistent: true
+
     ``` 
 1. Create a OCP route.   The operator doesn't create a route automatically.  You'll have to create the route manually. 
 
