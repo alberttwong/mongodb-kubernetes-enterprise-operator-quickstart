@@ -21,8 +21,56 @@ ecommerce, portal, your-app, etc, etc namespace contains: replica set
 Prereq: Operator is installed.
 
 1. Create a new project.  `oc new-project mongodb`
-1. Execute the 1 command to create the username/passwd to log into Ops Manager running in the kube cluster. You do this for each mongodb cluster. I use the OCP CLI. `oc create secret generic ops-manager-admin-user-credentials --from-literal=Username="albert.wong@mongodb.com" --from-literal=Password="Admin1234$" --from-literal=FirstName="Albert" --from-literal=LastName="Wong"`
-1. Deploy Ops Manager 
+2. Create all mongoDB k8s service accounts 
+
+```
+---
+# Source: mongodb-enterprise-operator/templates/database-roles.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mongodb-enterprise-appdb
+---
+# Source: mongodb-enterprise-operator/templates/database-roles.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mongodb-enterprise-database-pods
+---
+# Source: mongodb-enterprise-operator/templates/database-roles.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mongodb-enterprise-ops-manager
+---
+# Source: mongodb-enterprise-operator/templates/database-roles.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mongodb-enterprise-appdb
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - get
+---
+# Source: mongodb-enterprise-operator/templates/database-roles.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: mongodb-enterprise-appdb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: mongodb-enterprise-appdb
+subjects:
+  - kind: ServiceAccount
+    name: mongodb-enterprise-appdb
+```
+3. Execute the 1 command to create the username/passwd to log into Ops Manager running in the kube cluster. You do this for each mongodb cluster. I use the OCP CLI. `oc create secret generic ops-manager-admin-user-credentials --from-literal=Username="albert.wong@mongodb.com" --from-literal=Password="Admin1234$" --from-literal=FirstName="Albert" --from-literal=LastName="Wong"`
+4. Deploy Ops Manager 
     ```
     ---
     apiVersion: mongodb.com/v1
