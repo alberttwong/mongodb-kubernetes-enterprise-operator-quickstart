@@ -120,7 +120,7 @@ spec:
 The assumption is that you have a project (ecommerce) that has already been created and you want to "add" a MongoDB replica set into this project.
 
 1. Change to the correct project.  `oc project ecommerce`
-2. Create all mongoDB k8s service accounts 
+2. Create all mongoDB k8s service accounts.  MongoDB ticket #00837115. 
 
 ```
 ---
