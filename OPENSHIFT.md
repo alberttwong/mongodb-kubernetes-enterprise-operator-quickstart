@@ -194,7 +194,7 @@ spec:
 ...
 ```
 
-6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.  Full list of what cluster options are available at https://github.com/mongodb/mongodb-atlas-kubernetes/blob/v0.6.1/config/crd/bases/atlas.mongodb.com_atlasclusters.yaml#L171
+6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.  
 
 ```
 apiVersion: mongodb.com/v1
@@ -263,6 +263,9 @@ The operator doesn't create any OCP routes. This requires the use of k8s nodepor
 
 
 ## Atlas Operator
+
+Full list of what cluster options are available at https://github.com/mongodb/mongodb-atlas-kubernetes/blob/v0.6.1/config/crd/bases/atlas.mongodb.com_atlasclusters.yaml#L171
+
 ```
 apiVersion: atlas.mongodb.com/v1
 kind: AtlasCluster
