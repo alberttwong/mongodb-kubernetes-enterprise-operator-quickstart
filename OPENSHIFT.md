@@ -207,6 +207,8 @@ spec:
       enabled : true
       modes: ["SCRAM"]
   credentials: mongodb-opsmanager-creds
+  backup:
+    mode: enabled
   members: 3
   opsManager:
     configMapRef:
