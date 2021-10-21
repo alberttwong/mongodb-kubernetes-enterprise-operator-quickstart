@@ -2,6 +2,8 @@
 
 Here is a quickstart of installing the MongoDB Enterprise Operator on OpenShift.  There are steps needed for cluster wide and additional steps for each namespace/project.
 
+Using Operator 1.12
+
 # Architecture
 
 openshift-operator namespace contains: operator
@@ -122,58 +124,12 @@ The assumption is that you have a project (ecommerce) that has already been crea
 
 ```
 ---
-# Source: mongodb-enterprise-operator/templates/database-roles.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: mongodb-enterprise-appdb
----
-# Source: mongodb-enterprise-operator/templates/database-roles.yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mongodb-enterprise-database-pods
----
-# Source: mongodb-enterprise-operator/templates/database-roles.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: mongodb-enterprise-ops-manager
----
-# Source: mongodb-enterprise-operator/templates/database-roles.yaml
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: mongodb-enterprise-appdb
   namespace: mongodb
-rules:
-  - apiGroups:
-      - ""
-    resources:
-      - secrets
-    verbs:
-      - get
-  - apiGroups:
-      - ""
-    resources:
-      - pods
-    verbs:
-      - patch
-      - delete
-      - get
----
-# Source: mongodb-enterprise-operator/templates/database-roles.yaml
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: mongodb-enterprise-appdb
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: mongodb-enterprise-appdb
-subjects:
-  - kind: ServiceAccount
-    name: mongodb-enterprise-appdb
+...
 ```
 
 3. You must connect the replica set to Cloud Manager or Ops Manager.
@@ -262,7 +218,7 @@ spec:
 ```
 
 ```
-# TLS enabled in OpenShift doesn't currently work as of Jan 2021
+# TLS within the operator is deprecated as of Oct 2020. 
 apiVersion: mongodb.com/v1
 kind: MongoDB
 metadata:
