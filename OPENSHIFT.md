@@ -194,7 +194,7 @@ spec:
 ...
 ```
 
-6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.  
+6. yaml for provisioning should look like this. This ties the mongodb-opsmanager-creds and mongodb-cloudmanager-orgid to the "my-replica-set4" mongodb cluster within your kube cluster in project/namespace "ecommerce". I use the "import YAML" UI in OCP console.  More options at https://github.com/mongodb/mongodb-enterprise-kubernetes/tree/master/samples/mongodb
 
 ```
 apiVersion: mongodb.com/v1
